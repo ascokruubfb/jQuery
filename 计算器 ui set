@@ -1,0 +1,66 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <title>计算器程序</title>
+    <script src="../JQuery/jquery-3.2.1.js"></script>
+    <script>
+       $(function () {
+           $("#end").click(function () {
+              $("#back").hide("slow");
+           });
+           $("#back").mouseup(function () {
+              $(document).off("mousemove");
+           });
+           $("#back").mousedown(function (x) {
+               var pianyi=$("#back").offset();
+               var zuo=x.pageX-pianyi.left;
+               var shang=x.pageY-pianyi.top;
+               $(document).mousemove(function (z) {
+                   var zzz=z.pageX-zuo;
+                   var xxx=z.pageY-shang;
+                   $("#back").css({
+                       "left":zzz+"px",
+                       "top":xxx+"px"
+                   })
+               });
+           });
+       })
+    </script>
+</head>
+<body style="text-align: center">
+<div id="back" style="background-color: #62ff1c;width: 453px;height: 160px;position: absolute;left: 40%;top: 40%;text-align: center;z-index: 1">
+    <p style="color: black;position: relative;left:-80px;top:-12px;font-weight: bold;cursor: default">WEB PE V1.0 一个非常垃圾的计算器</p>
+<button id="end" style="color: red;position: relative;left:192px;top:-46px">关闭(X)</button>
+<div style="background-color: #d4d0c8;width: 440px;height: 128px;position: absolute;top: 23px;left:6px;text-align: center;z-index: 2;">
+    <h3>计算器 PHP 应用程序</h3>
+    <form  method="get">
+        <input type="text" name="add1">
+        <select name="what">
+            <option value="m">加</option>
+            <option value="n">减</option>
+            <option value="b">乘</option>
+            <option value="v">除</option>
+        </select>
+        <input type="text" name="add2">
+        <input type="submit" value="等于">
+        <?php
+        $add1=@$_GET['add1'];
+        $add2=@$_GET['add2'];
+        $what=@$_GET['what'];
+        if(isset($add1)){
+            if($what=="m"){
+                echo "<p style='font-size: 20px'>" . $add1 . " 加 " . $add2 . " 等于 " . strval($add1+$add2) . "</p>";
+            }elseif ($what=="n"){
+                echo  "<p style='font-size: 20px'>" . $add1 . " 减 " . $add2 . " 等于 " . strval($add1-$add2) . "</p>";
+            }elseif ($what=="b"){
+                echo  "<p style='font-size: 20px'>" . $add1 . " 乘 " . $add2 . " 等于 " . strval($add1*$add2) . "</p>";
+            }elseif ($what=="v"){
+                echo  "<p style='font-size: 20px'>" . $add1 . " 除 " . $add2 . " 等于 " . strval($add1/$add2) . "</p>";
+            }
+        }
+        ?>
+    </form>
+</div>
+</div>
+</body>
+</html>
