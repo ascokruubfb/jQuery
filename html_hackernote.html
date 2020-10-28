@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NOTE SITE</title>
+</head>
+<style>
+    .title{
+        color: #ccb719
+    }
+    .menu{
+        width: 282px;
+        height: 750px;
+        border: 2px solid #1aff05;
+        padding-top: 20px;
+        padding-left: 20px;
+        position: absolute;
+        overflow: auto;
+        word-break:keep-all;
+        white-space:nowrap;
+    }
+    .button_in{
+        float: left;
+        width: 192px;
+        height: 67px;
+        position: absolute;
+        margin-top: 770px;
+    }
+    .content_place{
+        width: 1400px;
+        height: 818px;
+        float: right;
+        position: absolute;
+        margin-left: 320px
+    }
+    .shownote{
+        width: 1517px;
+        height: 760px;
+        border: 2px solid #1aff05;
+        font-size: 20px;
+        color: #d4d0c8;
+        word-break: break-all;
+        padding-left: 20px;
+        padding-top: 10px;
+        overflow: auto;
+        word-break:keep-all;
+        white-space:nowrap;
+    }
+    .add_title{
+        display: none;
+        width:1500px;
+        height: 30px;
+        border: 2px solid #1aff05;
+        background-color: #0f0f0f;
+        color: #d4d0c8;
+        font-size: 20px;
+    }
+    .add_content{
+        display: none;
+        width: 1500px;
+        height: 713px;
+        border: 2px solid #1aff05;
+        background-color: #0f0f0f;
+        color: #d4d0c8;
+        font-size: 20px;
+    }
+    .button1{
+        color: #d4d0c8;
+        background-color: #0f0f0f;
+        border: 2px solid #1aff05;
+        margin-top: 20px;
+    }
+    .button2{
+        color: #d4d0c8;
+        background-color: #0f0f0f;
+        border: 2px solid #1aff05;
+    }
+
+</style>
+<script>
+    window.onload=function () {
+        var menu=document.getElementById("menu");
+        for(var i=0;i<localStorage.length;i++){
+            var id=i+1;
+            var title=localStorage.key(i);
+            menu.innerHTML+='<a style="color: #ccb719;font-size: 20px;text-decoration: none" href="#" onclick="shownote(\''+title+'\')">'+id+". "+title+'</a><br>';
+        }
+    };
+    function shownote(note_id) {
+        var note=document.getElementById("shownote");
+
+        var text=localStorage.getItem(note_id);
+        note.innerText="";
+        note.innerText+=text;
+
+        shownote.a=1;
+        setTimeout(function () {
+            shownote.a++;
+            if(shownote.a==3){
+                note.style.display="none";
+                title=document.getElementById("title_add");
+                content=document.getElementById("content");
+                title.style.display="block";
+                content.style.display="block";
+                title.value=note_id;
+                content.innerText+=text;
+
+            }
+        },300);
+        on_a();
+
+    };
+    function addnote() {
+        document.getElementById("shownote").style.display="none";
+        document.getElementById("title_add").style.display="block";
+        document.getElementById("content").style.display="block";
+
+        var note_title=document.getElementById("title_add").value;
+        var note_content=document.getElementById("content").value;
+        if(note_content!=""){
+            localStorage.setItem(note_title,note_content);
+            window.location.reload();
+        }
+
+    }
+    function ondelete() {
+        var note_title=prompt("请输入你要删除的ID索引，当然你也可以多选例如1,2,3:");
+        if(note_title.match(",")) {
+            var delete_target = note_title.split(",");
+            if (confirm("确定删除？")) {
+            for (var i = 0; i < delete_target.length+1; i++) {
+                    localStorage.removeItem(localStorage.key(delete_target[i]));
+                    window.location.reload();
+                }
+            }else {
+                alert("OK KIDDING~");
+            }
+        }else{
+            if(confirm("确定删除？")){
+                localStorage.removeItem(localStorage.key(note_title-1));
+                window.location.reload();
+            }else{
+                alert("OK KIDDING~");
+            }
+        }
+
+    }
+    function on_a() {
+        document.getElementById("shownote").style.display="block";
+        document.getElementById("title_add").style.display="none";
+        document.getElementById("content").style.display="none";
+    }
+    document.onkeydown=function keydown(event) {
+        this.e =event || window.event;
+        var code = this.e.keyCode;
+        keydown.code_ce=new Array();
+        setTimeout(function () {
+            keydown.code_ce.push(code);
+            if(keydown.code_ce[0]==65 && keydown.code_ce[1]==68 && keydown.code_ce[2]==13){
+                addnote();
+            }else if(keydown.code_ce[0]==72 && keydown.code_ce[1]==72 && keydown.code_ce[2]==13){
+                window.location.reload();
+            } else if(keydown.code_ce[0]==65 && keydown.code_ce[1]==65 && keydown.code_ce[2]==13){
+                addnote();
+            }
+        },300);
+    };
+
+</script>
+<body style="background-color: black">
+<h3 class="title">HACKER NOTE MENU v1.0</h3>
+
+    <div id="menu" class="menu" ></div>
+<div class="button_in">
+    <button class="button1" onclick="addnote()">添加</button>
+    <button class="button2" onclick="ondelete()">删除</button>
+</div>
+
+<div class="content_place">
+    <div id="shownote" class="shownote" >
+        <p style="color: #ccb719">
+        localStorage NOTE For Security <br>
+        一款基于localStorage技术实现的浏览器存储记事本<br>
+        Author：Wineme BILIBILI：安全Play学院 众创安全科技<br><br>
+        功能实现：<br>
+        别忘记按了命令之后按enter键进行执行<br>
+        你可以通过“快速双击”来实现删除的功能,very cool;<br>
+        并且你也可以通过“快速按A键和D”键进行添加笔记,fast<br>
+        另外你也可以按“两次H键”返回此界面<br>
+        至于添加是否使用鼠标很麻烦，可以使用“快速按aa键”进行添加<br>
+        </p>
+        <img src="logo.png" width="350" height="420">
+        <p>安全Play - 2020 官方 Bilibili:安全Play</p>
+
+    </div>
+    <input type="text" id="title_add" class="add_title"><br>
+    <textarea id="content" class="add_content"></textarea>
+    <br>
+
+</div>
+</body>
+</html>
